@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.2</version>
-    <date>2024-05-28T03:33:29Z</date>
+    <date>2024-05-28T05:12:01Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -29,6 +29,7 @@
                     <name>Failover Cluster (Nodes)</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>cluster.nodes.discovery</key>
+                    <delay>1h</delay>
                     <item_prototypes>
                         <item_prototype>
                             <name>Failover Cluster node state - {#NAME}</name>
@@ -55,26 +56,21 @@
                     <name>Failover Cluster (Core Resources)</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>cluster.resources.discovery[core]</key>
+                    <delay>1h</delay>
                     <filter>
                         <evaltype>OR</evaltype>
                         <conditions>
                             <condition>
                                 <macro>{#TYPE}</macro>
-                                <value>^Virtual Machine Configuration$</value>
+                                <value>^Virtual Machine Configuration|^Virtual Machine</value>
                                 <operator>NOT_MATCHES_REGEX</operator>
                                 <formulaid>A</formulaid>
-                            </condition>
-                            <condition>
-                                <macro>{#TYPE}</macro>
-                                <value>^Virtual Machine$</value>
-                                <operator>NOT_MATCHES_REGEX</operator>
-                                <formulaid>B</formulaid>
                             </condition>
                         </conditions>
                     </filter>
                     <item_prototypes>
                         <item_prototype>
-                            <name>Failover Cluster resource state - {#NAME}</name>
+                            <name>Failover Cluster core resource state - {#NAME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>cluster.resource.state[{#ID}]</key>
                             <trends>0</trends>
@@ -99,6 +95,7 @@
                     <name>Failover Cluster (Virtual Machine Configurations)</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>cluster.resources.discovery[vmconfig]</key>
+                    <status>DISABLED</status>
                     <filter>
                         <evaltype>AND</evaltype>
                         <conditions>

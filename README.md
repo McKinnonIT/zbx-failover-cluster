@@ -1,4 +1,4 @@
-# Zabbix Template for Monitoring Windows Failover Cluster
+# Zabbix template for monitoring Windows Failover Cluster
 
 This repository contains a Zabbix template that creates a basic item and trigger for the state of a Windows Failover Cluster.
 Includes
