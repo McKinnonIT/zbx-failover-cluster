@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.2</version>
-    <date>2024-05-28T05:12:01Z</date>
+    <date>2024-05-28T05:23:55Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -118,6 +118,13 @@
                                     <name>Windows Failover Cluster</name>
                                 </application>
                             </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{str(Online)}=0</expression>
+                                    <name>Failover Cluster &quot;{#NAME}&quot; is not online</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                     </item_prototypes>
                 </discovery_rule>
@@ -153,6 +160,13 @@
                                     <name>Windows Failover Cluster</name>
                                 </application>
                             </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{str(Online)}=0</expression>
+                                    <name>Failover Cluster &quot;{#NAME}&quot; is not online</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                     </item_prototypes>
                 </discovery_rule>

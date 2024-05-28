@@ -1,7 +1,7 @@
 {
     "zabbix_export": {
         "version": "5.2",
-        "date": "2024-05-28T05:12:03Z",
+        "date": "2024-05-28T05:23:56Z",
         "groups": [
             {
                 "name": "Templates"
@@ -117,6 +117,13 @@
                                     {
                                         "name": "Windows Failover Cluster"
                                     }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "expression": "{str(Online)}=0",
+                                        "name": "Failover Cluster \"{#NAME}\" is not online",
+                                        "priority": "DISASTER"
+                                    }
                                 ]
                             }
                         ]
@@ -151,6 +158,13 @@
                                 "applications": [
                                     {
                                         "name": "Windows Failover Cluster"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "expression": "{str(Online)}=0",
+                                        "name": "Failover Cluster \"{#NAME}\" is not online",
+                                        "priority": "DISASTER"
                                     }
                                 ]
                             }
