@@ -1,0 +1,118 @@
+zabbix_export:
+  version: '5.2'
+  date: '2024-05-28T03:33:27Z'
+  groups:
+    -
+      name: Templates
+  templates:
+    -
+      template: 'Template Windows Failover Cluster'
+      name: 'Template Windows Failover Cluster'
+      groups:
+        -
+          name: Templates
+      applications:
+        -
+          name: 'Failover Cluster'
+        -
+          name: 'Windows Failover Cluster'
+      discovery_rules:
+        -
+          name: 'Failover Cluster (Nodes)'
+          type: ZABBIX_ACTIVE
+          key: cluster.nodes.discovery
+          item_prototypes:
+            -
+              name: 'Failover Cluster node state - {#NAME}'
+              type: ZABBIX_ACTIVE
+              key: 'cluster.node.state[{#ID}]'
+              trends: '0'
+              value_type: TEXT
+              applications:
+                -
+                  name: 'Windows Failover Cluster'
+              trigger_prototypes:
+                -
+                  expression: '{str(Up)}=0'
+                  name: 'Failover Cluster node "{#NAME}" is not online'
+                  priority: DISASTER
+        -
+          name: 'Failover Cluster (Core Resources)'
+          type: ZABBIX_ACTIVE
+          key: 'cluster.resources.discovery[core]'
+          filter:
+            evaltype: OR
+            conditions:
+              -
+                macro: '{#TYPE}'
+                value: '^Virtual Machine Configuration$'
+                operator: NOT_MATCHES_REGEX
+                formulaid: A
+              -
+                macro: '{#TYPE}'
+                value: '^Virtual Machine$'
+                operator: NOT_MATCHES_REGEX
+                formulaid: B
+          item_prototypes:
+            -
+              name: 'Failover Cluster resource state - {#NAME}'
+              type: ZABBIX_ACTIVE
+              key: 'cluster.resource.state[{#ID}]'
+              trends: '0'
+              value_type: TEXT
+              applications:
+                -
+                  name: 'Windows Failover Cluster'
+              trigger_prototypes:
+                -
+                  expression: '{str(Online)}=0'
+                  name: 'Failover Cluster core resource "{#NAME}" is not online'
+                  priority: DISASTER
+                  description: 'Trigger when a core cluster resource is not in the "Online" state.'
+        -
+          name: 'Failover Cluster (Virtual Machine Configurations)'
+          type: ZABBIX_ACTIVE
+          key: 'cluster.resources.discovery[vmconfig]'
+          filter:
+            evaltype: AND
+            conditions:
+              -
+                macro: '{#TYPE}'
+                value: '^Virtual Machine Configuration'
+                formulaid: A
+          item_prototypes:
+            -
+              name: 'Failover Cluster - {#NAME}'
+              type: ZABBIX_ACTIVE
+              key: 'cluster.resource.state[{#ID},vmconfig]'
+              trends: '0'
+              value_type: TEXT
+              applications:
+                -
+                  name: 'Windows Failover Cluster'
+        -
+          name: 'Failover Cluster (Virtual Machines)'
+          type: ZABBIX_ACTIVE
+          key: 'cluster.resources.discovery[vm]'
+          filter:
+            evaltype: AND
+            conditions:
+              -
+                macro: '{#TYPE}'
+                value: '^Virtual Machine'
+                formulaid: A
+              -
+                macro: '{#TYPE}'
+                value: '^Virtual Machine Configuration'
+                operator: NOT_MATCHES_REGEX
+                formulaid: B
+          item_prototypes:
+            -
+              name: 'Failover Cluster - {#NAME}'
+              type: ZABBIX_ACTIVE
+              key: 'cluster.resource.state[{#ID},vm]'
+              trends: '0'
+              value_type: TEXT
+              applications:
+                -
+                  name: 'Windows Failover Cluster'
