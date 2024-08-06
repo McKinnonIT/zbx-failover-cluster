@@ -1,7 +1,7 @@
 {
     "zabbix_export": {
         "version": "5.2",
-        "date": "2024-05-28T05:23:56Z",
+        "date": "2024-08-06T04:41:33Z",
         "groups": [
             {
                 "name": "Templates"
@@ -165,6 +165,34 @@
                                         "expression": "{str(Online)}=0",
                                         "name": "Failover Cluster \"{#NAME}\" is not online",
                                         "priority": "DISASTER"
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "name": "Failover Cluster (Virtual Machine Network Adapters)",
+                        "type": "ZABBIX_ACTIVE",
+                        "key": "cluster.vm.network.adapter.discovery",
+                        "delay": "1h",
+                        "status": "DISABLED",
+                        "item_prototypes": [
+                            {
+                                "name": "VM Network Adapter - {#VMNAME} {#NAME}",
+                                "type": "ZABBIX_ACTIVE",
+                                "key": "cluster.vm.network.adapter.type[{#VMNAME}, {#ID}]",
+                                "trends": "0",
+                                "value_type": "TEXT",
+                                "applications": [
+                                    {
+                                        "name": "Windows Failover Cluster"
+                                    }
+                                ],
+                                "trigger_prototypes": [
+                                    {
+                                        "expression": "{str(Static)}<>1",
+                                        "name": "VM Network Adapter on #VMNAME is not static (#NAME)",
+                                        "priority": "WARNING"
                                     }
                                 ]
                             }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.2</version>
-    <date>2024-05-28T05:23:55Z</date>
+    <date>2024-08-06T04:41:32Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -165,6 +165,34 @@
                                     <expression>{str(Online)}=0</expression>
                                     <name>Failover Cluster &quot;{#NAME}&quot; is not online</name>
                                     <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>Failover Cluster (Virtual Machine Network Adapters)</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>cluster.vm.network.adapter.discovery</key>
+                    <delay>1h</delay>
+                    <status>DISABLED</status>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>VM Network Adapter - {#VMNAME} {#NAME}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>cluster.vm.network.adapter.type[{#VMNAME}, {#ID}]</key>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <applications>
+                                <application>
+                                    <name>Windows Failover Cluster</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{str(Static)}&lt;&gt;1</expression>
+                                    <name>VM Network Adapter on #VMNAME is not static (#NAME)</name>
+                                    <priority>WARNING</priority>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
