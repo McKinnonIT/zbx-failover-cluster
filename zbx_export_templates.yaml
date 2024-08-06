@@ -13,8 +13,6 @@ zabbix_export:
           name: Templates
       applications:
         -
-          name: 'Failover Cluster'
-        -
           name: 'Windows Failover Cluster'
       discovery_rules:
         -
@@ -124,3 +122,25 @@ zabbix_export:
                   expression: '{str(Online)}=0'
                   name: 'Failover Cluster "{#NAME}" is not online'
                   priority: DISASTER
+        -
+          name: 'Failover Cluster (Virtual Machine Network Adapters)'
+          type: ZABBIX_ACTIVE
+          key: 'cluster.vm.network.adapter.discovery'
+          status: DISABLED
+          delay: 1h
+          item_prototypes:
+            -
+              name: 'VM Network Adapter - {#VMNAME} {#NAME}'
+              type: ZABBIX_ACTIVE
+              key: 'cluster.vm.network.adapter.type[{#VMNAME}, {#ID}]'
+              trends: '0'
+              value_type: TEXT
+              applications:
+                -
+                  name: 'Windows Failover Cluster'
+              trigger_prototypes:
+                -
+                  expression: '{str(Static)}<>1'
+                  name: 'VM Network Adapter on #VMNAME is not static (#NAME)'
+                  priority: WARNING
+                  
