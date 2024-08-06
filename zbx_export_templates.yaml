@@ -141,6 +141,6 @@ zabbix_export:
               trigger_prototypes:
                 -
                   expression: '{str(Static)}<>1'
-                  name: 'VM Network Adapter on #VMNAME is not static (#NAME)'
+                  name: 'VM Network Adapter on {#VMNAME} is not static (#NAME)'
                   priority: WARNING
                   
